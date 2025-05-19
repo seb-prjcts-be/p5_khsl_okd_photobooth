@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kunsthumaniora Sint-Lucas Gent - Fotobooth</title>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
+    <script src="sketch.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; display: flex; flex-direction: column; height: 100vh; }
+        #container { display: flex; flex: 1; width: 100vw; }
+        #left, #right { flex: 1; padding: 10px; overflow-y: auto; }
+        #left { background: #ffffff; text-align: center; }
+        #right { background: #ffffff; }
+        .thumbnail {
+            width: 100px;
+            cursor: pointer;
+            margin: 5px;
+            border-radius: 5px;
+            transition: transform 0.2s ease-in-out;
+            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+        }
+        .thumbnail:hover {
+            transform: scale(1.1);
+            box-shadow: 8px 8px 15px rgba(0, 0, 0, 0.7);
+        }
+        #fullImage { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.8); justify-content: center; align-items: center; }
+        #fullImage img { max-width: 90%; max-height: 90%; }
+        
+        /* Zwarte footer voor dienstmededelingen */
+        #footer {
+            background: black;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            width: 100%;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+        }
+        #footer button {
+            margin: 5px;
+            padding: 10px 15px;
+            font-size: 16px;
+            background: white;
+            color: black;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body onload="updateGallery()">
+    <div id="container">
+        <div id="left"></div>
+        <div id="right">
+            <div id="gallery"></div>
+        </div>
+    </div>
+    <div id="fullImage" onclick="hideFullImage()">
+        <img id="largeImg" src="">
+    </div>    
+    
+    <!-- Footer met dienstmededelingen en knoppen -->
+    <div id="footer">
+        <span id="statusMessage">Klaar om een foto te maken</span><br>
+        <button onclick="saveImage()" id="saveBtn" style="display:none;">Opslaan</button>
+        <button id="takePhotoBtn" onclick="takePhoto()">Neem Foto</button>
+        <button id="remixBtn" onclick="remixBg()" style="display:inline;">Remix</button>
+        <button onclick="retryPhoto()" id="retryBtn" style="display:none;">Opnieuw Proberen</button>
+        <button onclick="shareByEmail()" id="shareBtn" style="display:none;">Delen via e-mail</button>
+        <button onclick="downloadImage()" id="downloadBtn" style="display:none;">Download</button>
+    </div>
+
+    <script>
+        function showImage(src) {
+            let img = document.getElementById("largeImg");
+            img.src = src;
+            document.getElementById("statusMessage").innerText = "Klik om te sluiten!";
+            document.getElementById("fullImage").style.display = "flex";
+            document.getElementById("takePhotoBtn").style.display = "none";
+            document.getElementById("shareBtn").style.display = "inline";
+            document.getElementById("remixBtn").style.display = "none";
+            document.getElementById("downloadBtn").style.display = "inline";
+        }
+        
+        function hideFullImage() {
+            document.getElementById("fullImage").style.display = "none";
+            document.getElementById("takePhotoBtn").style.display = "inline";
+            document.getElementById("statusMessage").innerText = "Klaar om een foto te maken";
+            document.getElementById("shareBtn").style.display = "none";
+            document.getElementById("downloadBtn").style.display = "none";
+        }
+    </script>
+</body>
+</html>
